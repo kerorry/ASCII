@@ -14,3 +14,4 @@
 git clone https://github.com/kerorry/ASCII
 cd ASCLL
 pip install -r requirements.txt
+python main.py
