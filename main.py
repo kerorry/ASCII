@@ -1,4 +1,5 @@
 import sys
+import os
 import colorsys
 import threading
 from PyQt5.QtWidgets import (QApplication, QLabel, QWidget, QGraphicsDropShadowEffect)
@@ -78,13 +79,21 @@ class Main(QWidget):
 
     # 托盘
     def start_system_tray(self):
-        image = Image.open("icon.ico")
+        image = Image.open(self.get_resource_path("icon.ico"))
         self.tray_menu = (
             item('退出', self.on_quit),
         )
         self.icon = pystray.Icon("kerorry", image, "kerorry", self.tray_menu)
         self.icon_thread = threading.Thread(target=self.icon.run, daemon=False)
         self.icon_thread.start()
+
+    # 获取资源路径
+    def get_resource_path(self, relative_path):
+        if hasattr(sys, '_MEIPASS'):
+            base_path = sys._MEIPASS
+        else:
+            base_path = os.path.abspath(".")
+        return os.path.join(base_path, relative_path)
 
     # 运行
     def run(self):
